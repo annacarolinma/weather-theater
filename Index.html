@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+        <title>Weather theater</title>
+
+        <!-- Link para o arquivo CSS -->
+        <link rel="stylesheet" href="/style.css">
+
+        <!-- Script do js -->
+         <script src="js/script.js" defer></script>
+
+         <!-- Google fonts -->
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <!-- Link para o CDN do Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div class="container">
+            <h2> Weather theater</h2>
+            <div class="glass-container">
+                <!-- Div head da pag -->
+                <div class="form">
+                    <div class="input">
+                        <button id="search-city-button">
+                            <i class="fa-solid fa-location-arrow"></i>
+                        </button>
+                        <input type="text" placeholder="" class="hidden" id="city">
+                        
+                    </div> <!--div-input-->
+                    <div class="temperature-scale">
+                        <button id="celsius"> C°</button>
+                        <button id="fahrenheit">F°</button>
+                    </div> <!--div-temperature-scale-->
+                    <div class="date">
+                        Wednesday - january, 22, 2025 <!--mudar depois-->
+                    </div>
+                    <div class="time">
+                        18:30 <!--mudar depois-->
+                    </div>
+                </div> <!--div-form-->
+
+                <!-- Div body com temperatura -->
+                <div>
+
+                </div>
+
+            </div> <!--div-glass-container-->
+        </div> <!--div-container-->
+       
+    </body>
+
+    <script src="js/SearchButton.js"></script>
+</html>
