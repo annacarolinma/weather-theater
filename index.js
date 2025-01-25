@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
 app.get('/weather', async (req, res) => {
     const city = req.query.city || 'London'; // Cidade padrão
     const apiKey = process.env.OPENWEATHER_API_KEY; //usa a variavel de ambiente para atribuir a api key a nossa constante
+   
 
     // Mapeia as descrições do clima para cada ícone que eu desenvolvi, com objetos que diferenciam se o clima é dia ou noite 
     const WeatherIconMap = {
