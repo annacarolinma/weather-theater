@@ -12,9 +12,6 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
 
 // Serve arquivos estáticos da pasta atual (onde o index.js está)
 app.use(express.static(path.resolve()));
@@ -32,7 +29,6 @@ app.get('/', (req, res) => {
 app.get('/weather', async (req, res) => {
     const city = req.query.city || 'London'; // Cidade padrão
     const apiKey = process.env.OPENWEATHER_API_KEY; //usa a variavel de ambiente para atribuir a api key a nossa constante
-    console.log(`Recebendo dados para a cidade: ${city}`);
 
     // Mapeia as descrições do clima para cada ícone que eu desenvolvi, com objetos que diferenciam se o clima é dia ou noite 
     const WeatherIconMap = {
@@ -109,7 +105,7 @@ app.get('/weather', async (req, res) => {
                 temperature: `${data.main.temp}°C`,
                 feels_like: `${data.main.feels_like}°C`,
                 weather: weather_description,
-                icon: `icons/${iconFile}`
+                icon: iconFile
             });
            
         } else {
