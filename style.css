@@ -219,6 +219,14 @@ body, html{
     font-style: normal;
 }
 
+#temp{
+    font-size: 140px;
+    height: 90px;
+    font-weight: 400;
+    font-style: normal;
+    color: #FFFFFF;
+}
+
 #feels p{
     font-size: 18px;
     margin-top: 25px;

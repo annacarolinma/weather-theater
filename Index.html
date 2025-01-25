@@ -10,9 +10,7 @@
         <!-- Link para o arquivo CSS -->
         <link rel="stylesheet" href="/style.css">
 
-        <!-- Script do js -->
-         <script src="js/script.js" defer></script>
-
+     
          <!-- Google fonts -->
          <link rel="preconnect" href="https://fonts.googleapis.com">
          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,10 +22,6 @@
         <!-- Google icons -->
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0&family=Material+Symbols+Outlined+Rounded" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-
-
-
-
 
         <!-- Google icons -->
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0&family=Material+Symbols+Outlined+Rounded" rel="stylesheet">
@@ -50,11 +44,7 @@
                     <div class="input">
                       
                         <input type="text" placeholder="Digite seu local" id="city" >
-                        <span class="material-symbols-rounded" data-style="fill">near_me</span>
-
-                      
-                        <input type="text" placeholder="Digite seu local" id="city" >
-                        <span class="material-symbols-rounded" data-style="fill">near_me</span>
+                        <span class="material-symbols-rounded" data-style="fill" id="search-city">near_me</span>
 
                     </div> <!--div-input-->
                     <div class="temperature-scale">
@@ -63,29 +53,26 @@
                     </div> <!--div-temperature-scale-->
                     <div class="date">
                         <p>Wednesday - january, 22, 2025 </p> <!--mudar depois-->
-                        <p>Wednesday - january, 22, 2025 </p> <!--mudar depois-->
+                      
                     </div>
                     <div class="time">
                         <p>18:30</p> <!--mudar depois-->
-                        <p>18:30</p> <!--mudar depois-->
                     </div>
                 </div> <!--div-form-->
-
                 <!-- Div bod com temperatura -->
                 <div class="container-temperature">
                     <div class="temperature">
                         <p>Now</p>
                         <div id="temperature">
-                            <p>11°</p>
-                           <!-- Adicionar icon -->
+                            <p id="temp"></p>
+                            <img id="weatherIcon" src="" alt="Weather icon" width="50" height="50">
                         </div>
                         <div id="feels">
-                            <p>Feels like 10°</p>
+                            <p id="feel"></p>
                         </div>
                         <div id="place">
-                            <p>Budapest</p>
+                            <p id="city-temp"></p>
                             <button id="button-alert"><span class="material-symbols-outlined">error</span></button>
-                            
                         </div>
                     </div> <!--div-temperature-->
                     <div class="temperature-next-hours">
@@ -95,33 +82,15 @@
                 </div><!--container-temperature-->
                 <div class="temp-next-days"></div>
             </div> <!--div-glass-container-->
-                <!-- Div bod com temperatura -->
-                <div class="container-temperature">
-                    <div class="temperature">
-                        <p>Now</p>
-                        <div id="temperature">
-                            <p>11°</p>
-                           <!-- Adicionar icon -->
-                        </div>
-                        <div id="feels">
-                            <p>Feels like 10°</p>
-                        </div>
-                        <div id="place">
-                            <p>Budapest</p>
-                            <button id="button-alert"><span class="material-symbols-outlined">error</span></button>
-                            
-                        </div>
-                    </div> <!--div-temperature-->
-                    <div class="temperature-next-days">
-
-                        <p></p>
-                    </div>
-                </div><!--container-temperature--
-
-            </div> <!-div-glass-container-->
         </div> <!--div-container-->
        
     </body>
 
-  <script src="js/scaleAnimated.js"></script>
+ <!-- Script do codigo -->
+ <script src="js/script.js"></script>
+    <!-- Script de animacao -->
+    <script src="js/scaleAnimated.js"></script>
+
+
+
 </html>
