@@ -16,18 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.icon) {
                 // Atualizando o ícone do clima
                 weatherIconElement.src = data.icon;
+                console.log('weatherIconElement');
             }
 
             if (data.temperature) {
-                tempElement.innerHTML = `Temperatura: ${data.temperature}°`;
+                tempElement.innerHTML = `${data.temperature}`;
+                
             }
 
             if (data.feels_like) {
-                feelsElement.innerHTML = `Sensação térmica: ${data.feels_like}°`;
+                feelsElement.innerHTML = `Fells like ${data.feels_like}`;
             }
 
             if (data.city) {
-                placeElement.innerHTML = `Cidade: ${data.city}`;
+                placeElement.innerHTML = `${data.city}`;
             }
 
         } catch (error) {
@@ -35,13 +37,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Evento de clique no ícone de busca
-    searchCityButton.addEventListener('click', () => {
-        const city = cityInput.value.trim(); // Obtém a cidade digitada
-        if (city) {
-            WeatherFetch(city); // Chama a função para buscar o clima
-        } else {
-            alert("Por favor, insira o nome de uma cidade.");
+    // // Evento de clique no ícone de busca
+    // searchCityButton.addEventListener('click', () => {
+    //     const city = cityInput.value.trim(); // Obtém a cidade digitada
+    //     if (city) {
+    //         WeatherFetch(city); // Chama a função para buscar o clima
+    //     } else {
+    //         alert("Por favor, insira o nome de uma cidade.");
+    //     }
+    // });
+
+     // Evento para pressionar Enter no campo de entrada
+     cityInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') { // Verifica se a tecla pressionada é 'Enter'
+            const city = cityInput.value.trim(); // Obtém a cidade digitada
+            if (city) {
+                WeatherFetch(city); // Chama a função para buscar o clima
+            } else {
+                alert("Por favor, insira o nome de uma cidade.");
+            }
         }
     });
 });

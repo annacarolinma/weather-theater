@@ -12,6 +12,7 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+console.log('oi');
 
 // Serve arquivos estáticos da pasta atual (onde o index.js está)
 app.use(express.static(path.resolve()));
@@ -27,10 +28,16 @@ app.get('/', (req, res) => {
 
 // Endpoint para buscar dados do clima
 app.get('/weather', async (req, res) => {
-    const city = req.query.city || 'London'; // Cidade padrão
-    const apiKey = process.env.OPENWEATHER_API_KEY; //usa a variavel de ambiente para atribuir a api key a nossa constante
-   
+    console.log('Rota /weather acessada');
+    const city = req.query.city || 'London';
+    console.log('Parâmetro city:', city);
 
+
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    if (!apiKey) {
+        console.error('Chave da API não encontrada');
+        return res.status(500).json({ error: 'Chave da API não configurada' });
+    }
     // Mapeia as descrições do clima para cada ícone que eu desenvolvi, com objetos que diferenciam se o clima é dia ou noite 
     const WeatherIconMap = {
         "clear sky" : {
@@ -100,14 +107,18 @@ app.get('/weather', async (req, res) => {
                 iconFile = "Erro: icon not found";
             }
 
-            res.json({
-                city: data.name,
-                country: data.sys.country,
-                temperature: `${data.main.temp}°C`,
-                feels_like: `${data.main.feels_like}°C`,
-                weather: weather_description,
-                icon: iconFile
-            });
+             // Formatar temperatura para remover os decimais
+             const temperature = Math.round(data.main.temp); 
+             const feels_like = Math.round(data.main.feels_like); 
+ 
+             res.json({
+                 city: data.name,
+                 country: data.sys.country,
+                 temperature: `${temperature}°`,  
+                 feels_like: `${feels_like}°`,   
+                 weather: weather_description,
+                 icon: iconFile
+             });
            
         } else {
             console.log("Erro ao buscar dados:", data);
