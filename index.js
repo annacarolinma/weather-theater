@@ -29,20 +29,21 @@ app.get('/', (req, res) => {
 // Endpoint para buscar dados do clima
 app.get('/weather', async (req, res) => {
     console.log('Rota /weather acessada');
-    const city = req.query.city || 'London';
-    console.log('Parâmetro city:', city);
-
+    let city = req.query.city ? req.query.city.trim() : ''; // Usar let para permitir reatribuição
+    let lat = req.query.lat;  // Usar let aqui também
+    let lon = req.query.lon;  // Usar let aqui também
 
     const apiKey = process.env.OPENWEATHER_API_KEY;
     if (!apiKey) {
         console.error('Chave da API não encontrada');
         return res.status(500).json({ error: 'Chave da API não configurada' });
     }
+
     // Mapeia as descrições do clima para cada ícone que eu desenvolvi, com objetos que diferenciam se o clima é dia ou noite 
     const WeatherIconMap = {
         "clear sky" : {
             day: "icons/sunny.svg",
-            nigth: "icons/clearSky-night.svg"
+            night: "icons/clearSky-night.svg"
         },
         "few clouds": {
             day: "icons/partly_cloudy-day.svg",
@@ -83,47 +84,63 @@ app.get('/weather', async (req, res) => {
     };
 
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+        let url = '';
+        let weatherData = {}; //armazena os dados buscados
+        
+        if (city) {
+            // Se a cidade for fornecida, obtem suas cordenadas 
+            const geocodeUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+            const geoResponse = await fetch(geocodeUrl);
+            const geoData = await geoResponse.json();
 
-        const data = await response.json();
-        console.log(data);
-
-        if (data.cod === 200) { // Código 200 indica sucesso na API OpenWeather
-
-            //Receber a descricao referente ao tempo, o icone e verificar o sufixo
-            const weather_description = data.weather[0].description;
-            const iconCode = data.weather[0].icon;  // Exemplo: "01d", "01n"
-            const isDay = iconCode.endsWith('d'); // Verifica se é dia (sufixo "d")
-
-            //Mapear o meu icone de acordo com o clima
-            let iconFile;
-            if(WeatherIconMap[weather_description]) {
-                if(isDay) {
-                    iconFile = WeatherIconMap[weather_description].day;
-                } else {
-                    iconFile = WeatherIconMap[weather_description].night;
-                }
-            } else {
-                iconFile = "Erro: icon not found";
+            if (geoData.cod !== 200) {
+                return res.status(404).json({ error: 'Cidade não encontrada.' });
             }
 
-             // Formatar temperatura para remover os decimais
-             const temperature = Math.round(data.main.temp); 
-             const feels_like = Math.round(data.main.feels_like); 
- 
-             res.json({
-                 city: data.name,
-                 country: data.sys.country,
-                 temperature: `${temperature}°`,  
-                 feels_like: `${feels_like}°`,   
-                 weather: weather_description,
-                 icon: iconFile
-             });
-           
-        } else {
-            console.log("Erro ao buscar dados:", data);
-            res.status(404).json({ error: data.message });
+            lat = geoData.coord.lat;
+            lon = geoData.coord.lon;
+            console.log('Coordenadas geocodificadas:', lat, lon);
         }
+
+        // Se a cidade/coordenadas forem fornecidas, faz a requisição do clima
+        if (lat && lon) {
+            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+            const response = await fetch(url);
+            weatherData = await response.json();
+
+            if (weatherData.cod !== 200) {
+                return res.status(404).json({ error: weatherData.message });
+            }
+        } else {
+            return res.status(400).json({ error: 'Cidade ou coordenadas não fornecidas corretamente.' });
+        }
+
+         //Receber a descricao referente ao tempo, o icone e verificar o sufixo
+         const weather_description = weatherData.weather[0].description;
+         const iconCode = weatherData.weather[0].icon;  // Exemplo: "01d", "01n"
+         const isDay = iconCode.endsWith('d'); // Verifica se é dia (sufixo "d")
+
+         //Mapear o meu icone de acordo com o clima
+         let iconFile;
+         if(WeatherIconMap[weather_description]) {
+             if(isDay) {
+                 iconFile = WeatherIconMap[weather_description].day;
+             } else {
+                 iconFile = WeatherIconMap[weather_description].night;
+             }
+         } else {
+             iconFile = "Erro: icon not found";
+         }
+
+        // Processa os dados do clima e retorna os valores (e faz arredondamento da temperatura)
+        res.json({
+            city: weatherData.name,
+            country: weatherData.sys.country,
+            temperature: `${Math.round(weatherData.main.temp)}°`,
+            feels_like: `${Math.round(weatherData.main.feels_like)}°`,
+            weather: weatherData.weather[0].description,
+            icon: iconFile
+        });
     } catch (error) {
         console.error('Erro ao buscar dados do clima:', error);
         res.status(500).json({ error: 'Erro ao buscar dados do clima.' });
