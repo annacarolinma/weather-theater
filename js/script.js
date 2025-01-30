@@ -6,6 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeElement = document.getElementById('city-temp');
     const searchCityButton = document.getElementById('search-city');
 
+    const date = document.getElementById('dateelem');
+    const hour = document.getElementById('hour');
+
+    function updateTimeHour() {
+        moment.locale('en');
+
+        const dateUpdate = moment().format("dddd, MMMM Do YYYY");
+        const hourUpdate = moment().format("h:mm");
+
+        date.textContent = dateUpdate;
+        hour.textContent = hourUpdate;
+    }
+
     async function getWeatherLocal(city = '') {
         let url = ''; // Inicializa a variável url
 
@@ -62,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Chama a função para pegar o clima da localização ou cidade padrão
     getWeatherLocal();
+
+    //chama a funcao de data e hora para atualizacao
+    updateTimeHour();
+    setInterval(updateTimeHour, 1000);
 
     // Evento para pressionar Enter no campo de entrada
     cityInput.addEventListener('keydown', (event) => {
