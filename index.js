@@ -32,6 +32,8 @@ app.get('/weather', async (req, res) => {
     let city = req.query.city ? req.query.city.trim() : ''; // Usar let para permitir reatribuição
     let lat = req.query.lat;  // Usar let aqui também
     let lon = req.query.lon;  // Usar let aqui também
+    let unit = req.query.unit && (req.query.unit === 'imperial' || req.query.unit === 'metric') ? req.query.unit : 'metric';
+    console.log(unit);
 
     const apiKey = process.env.OPENWEATHER_API_KEY;
     if (!apiKey) {
@@ -89,10 +91,10 @@ app.get('/weather', async (req, res) => {
         
         if (city) {
             // Se a cidade for fornecida, obtem suas cordenadas 
-            const geocodeUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+            const geocodeUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
             const geoResponse = await fetch(geocodeUrl);
             const geoData = await geoResponse.json();
-
+            console.log(geocodeUrl);
             if (geoData.cod !== 200) {
                 return res.status(404).json({ error: 'Cidade não encontrada.' });
             }
@@ -104,9 +106,11 @@ app.get('/weather', async (req, res) => {
 
         // Se a cidade/coordenadas forem fornecidas, faz a requisição do clima
         if (lat && lon) {
-            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${unit}`;
             const response = await fetch(url);
             weatherData = await response.json();
+            console.log(url);
+
 
             if (weatherData.cod !== 200) {
                 return res.status(404).json({ error: weatherData.message });

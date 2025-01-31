@@ -48,15 +48,20 @@
                         <span class="material-symbols-rounded" data-style="fill" id="search-city">near_me</span>
 
                     </div> <!--div-input-->
-                    <div class="temperature-scale">
-                        <button id="celsius"> C°</button>
-                        <button id="fahrenheit">F°</button>
-                    </div> <!--div-temperature-scale-->
+                    <div class="toggle-container">
+                        <input type="checkbox" id="unit-toggle"> <!--checkbox-->
+                        <label for="unit-toggle" class="toggle-label"> <!--body do toggle-->
+                            <span class="toggle-circle"></span> <!--selecao-->
+                            <span class="toggle-text celsius" name="unit" value="metric">°C</span>
+                            <span class="toggle-text fahrenheit" name="unit" value="imperial">°F</span>
+                        </label>
+                    </div>
+                                                       
                     <div class="date">
-                        <p id="dateelem"> </p> <!--mudar depois-->
+                        <p id="dateelem"> </p> 
                     </div>
                     <div class="time">
-                        <p id="hour"> </p> <!--mudar depois-->
+                        <p id="hour"> </p> 
                     </div>
                 </div> <!--div-form-->
                 <!-- Div bod com temperatura -->
@@ -88,8 +93,6 @@
 
  <!-- Script do codigo -->
  <script src="js/script.js"></script>
-    <!-- Script de animacao -->
-    <script src="js/scaleAnimated.js"></script>
 
 
 

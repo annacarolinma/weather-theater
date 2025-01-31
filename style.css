@@ -98,7 +98,7 @@ body, html{
     height: 30px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 30px;
     transition: all 0.3s ease;
     background-color: #ffffff26;
     padding: 0 3px 0 10px; /* Espaço interno: direita para o ícone e esquerda para o texto */
@@ -114,61 +114,83 @@ body, html{
   }
 
 /* Botões de escala de temperatura */
-.temperature-scale{
-    width: 70px;
-    height: 60px;
+.toggle-container {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    
-}
-#celsius {
-    all: unset; 
-    color: #bababa;
-    font-size: 22px;
-    width: 40px;
-    text-align: center;
-    border-right: 2px solid #bababa;
+    justify-content: center;
 }
 
-#fahrenheit {
-    all: unset; 
-    color: #bababa;
-    font-size: 22px;
-    width: 40px;
-    text-align: center;
-    
+/* Ocultar input padrão */
+#unit-toggle {
+    display: none;
 }
+
+/* Estilização do switch */
+.toggle-label {
+    width: 80px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Círculo que se move */
+.toggle-circle {
+    width: 28px;
+    height: 26px;
+    background: #6a6a6a69;
+    border-radius: 50%;
+    position: absolute;
+    left: 3px;
+    transition: transform 0.3s;
+}
+
+/* Textos */
+.toggle-text {
+    position: absolute;
+    font-size: 16px;
+    transition: opacity 0.3s;
+}
+
+/* Posicionamento dos textos */
+.celsius {
+    left: 8px;
+    color: #FFFFFF;
+}
+
+.fahrenheit {
+    right: 8px;
+    color: #535353;
+    opacity: 0;
+}
+
+/* Quando ativado (°F) */
+#unit-toggle:checked + .toggle-label {
+    background-color: #cccccc86;
+}
+
+#unit-toggle:checked + .toggle-label .toggle-circle {
+    transform: translateX(46px);
+}
+
+#unit-toggle:checked + .toggle-label .celsius {
+    opacity: 0;
+}
+
+#unit-toggle:checked + .toggle-label .fahrenheit {
+    opacity: 1;
+}
+
 
 .date{
-    width: 270px;
+    width: 240px;
   
 }
 
-#celsius:hover {
-    
-    color: #FFFFFF;
-    
-}
-
-#fahrenheit:hover {
-    
-    color: #FFFFFF;
-    
-}
-
-#celsius:focus {
-    
-    color: #FFFFFF;
-    
-}
-
-#fahrenheit:focus {
-    
-    color: #FFFFFF;
-    
-}
 
 .date {
     color: #FFFFFF;
