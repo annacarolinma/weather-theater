@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const weatherIconElement = document.getElementById('weatherIcon');
     const placeElement = document.getElementById('city-temp');
     const searchCityButton = document.getElementById('search-city');
-    const toggleUnit = document.getElementById('unit-toggle');
-
     const date = document.getElementById('dateelem');
     const hour = document.getElementById('hour');
 
@@ -20,32 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
         hour.textContent = hourUpdate;
     }
 
-    let unit = '';
-    toggleUnit.addEventListener('change', () => {
-        if (toggleUnit.checked) {
-            unit = 'imperial';
-        } else {
-            unit = 'metric';
-        }
 
-        console.log("Unit:", unit); // Verifique se o valor está sendo atualizado
-        const city = cityInput.value.trim();
-        if (city) {
-            getWeatherLocal(city); // Refaça a requisição para a cidade informada
-        } else {
-            getWeatherLocal(); // Refaça a requisição com base na localização atual
-        }
-    });
-        
-
+    
 
     async function getWeatherLocal(city = '') {
+       
         let url = ''; // Inicializa a variável url
-        
+
+
         if (city) {  // Se uma cidade for fornecida
             console.log("Requisição usando cidade:", city);
-            url = `weather?city=${city}&units=${unit}`; // Se uma cidade for passada, monta a URL
-            console.log(url);
+            url = `/weather?city=${city}`; // Se uma cidade for passada, monta a URL
+            console.log('url:', url);
         } else {
             // Caso contrário, obtém a geolocalização e monta a URL com as coordenadas
             try {
@@ -54,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                url = `weather?lat=${lat}&lon=${lon}&units=${unit}`; // URL com as coordenadas
+                url = `weather?lat=${lat}&lon=${lon}`; // URL com as coordenadas
                 console.log("Requisição usando latitude e longitude:", lat, lon);
-                console.log(url);
+                console.log('url:', url);
             } catch (error) {
                 console.error("Erro ao obter localização:", error);
                 alert("Não foi possível acessar sua localização. Tente novamente.");
