@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchCityButton = document.getElementById('search-city');
     const date = document.getElementById('dateelem');
     const hour = document.getElementById('hour');
+    const forecastcontainer = document.getElementById('hourly-container');
 
     function updateTimeHour() {
         moment.locale('en');
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                url = `weather?lat=${lat}&lon=${lon}`; // URL com as coordenadas
+                url = `/weather?lat=${lat}&lon=${lon}`; // URL com as coordenadas
                 console.log("Requisição usando latitude e longitude:", lat, lon);
                 console.log('url:', url);
             } catch (error) {
@@ -59,21 +60,54 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para atualizar a interface com os dados do clima
     function WeatherFetch(data) {
         try {
-            if (data.icon) {
-                weatherIconElement.src = data.icon; // Usando o ícone que vem do backend
+
+            const tempdata = data.temp;
+            if (tempdata.icon) {
+                weatherIconElement.src = tempdata.icon; // Usando o ícone que vem do backend
             }
 
-            if (data.temperature) {
-                tempElement.innerHTML = `${data.temperature}`; // Temperatura
+            if (tempdata.temperature) {
+                tempElement.innerHTML = `${tempdata.temperature}`; // Temperatura
             }
 
-            if (data.feels_like) {
-                feelsElement.innerHTML = `Feels like ${data.feels_like}`; // Sensação térmica
+            if (tempdata.feels_like) {
+                feelsElement.innerHTML = `feels like ${tempdata.feels_like}`; // Sensação térmica
             }
 
-            if (data.city) {
-                placeElement.innerHTML = `${data.city}`; // Cidade e país
+            if (tempdata.city) {
+                placeElement.innerHTML = `${tempdata.city}`; // Cidade e país
             }
+            const forecastData = data.forecast;
+            forecastcontainer.innerHTML = '';
+
+            // Se o forecastData existir e não estiver vazio, percorre as previsões
+        if (forecastData && forecastData.length > 0) {
+            forecastData.forEach(hourlyData => {
+                const forecastItem = document.createElement('div');
+                forecastItem.classList.add('forecast-item');
+                
+                const forecastTime = document.createElement('span');
+                forecastTime.classList.add('forecast-time');
+                forecastTime.textContent = hourlyData.time; // Hora da previsão
+                
+                const forecastTemp = document.createElement('span');
+                forecastTemp.classList.add('forecast-temp');
+                forecastTemp.textContent = `${hourlyData.temperature}°`; // Temperatura da previsão
+
+                // const forecastIcon = document.createElement('img');
+                // forecastIcon.classList.add('forecast-icon');
+                // forecastIcon.src = hourlyData.icon; // Ícone da previsão
+
+                forecastItem.appendChild(forecastTime);
+                forecastItem.appendChild(forecastTemp);
+                // forecastItem.appendChild(forecastIcon);
+
+                forecastcontainer.appendChild(forecastItem);
+            });
+        } else {
+            forecastElement.innerHTML = 'Previsões não disponíveis';
+        }
+        
 
         } catch (error) {
             console.error('Clima não encontrado:', error);
@@ -86,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
     //chama a funcao de data e hora para atualizacao
     updateTimeHour();
     setInterval(updateTimeHour, 1000);
+
+    // Atualiza o clima a cada 10 minutos
+    setInterval(() => getWeatherLocal(), 600000);
 
     // Evento para pressionar Enter no campo de entrada
     cityInput.addEventListener('keydown', (event) => {

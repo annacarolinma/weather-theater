@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';  // Importando path para lidar com caminhos
@@ -89,7 +88,7 @@ app.get('/weather', async (req, res) => {
         
         if (city) {
             // Se a cidade for fornecida, obtem suas cordenadas 
-            const geocodeUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+            const geocodeUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
             const geoResponse = await fetch(geocodeUrl);
             const geoData = await geoResponse.json();
             console.log(geocodeUrl);
@@ -104,7 +103,7 @@ app.get('/weather', async (req, res) => {
 
         // Se a cidade/coordenadas forem fornecidas, faz a requisição do clima
         if (lat && lon) {
-            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
             const response = await fetch(url);
             weatherData = await response.json();
             console.log(url);
@@ -113,8 +112,18 @@ app.get('/weather', async (req, res) => {
             if (weatherData.cod !== 200) {
                 return res.status(404).json({ error: weatherData.message });
             }
+
         } else {
             return res.status(400).json({ error: 'Cidade ou coordenadas não fornecidas corretamente.' });
+        }
+
+        //obter previsao horaria
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+        const forecastResponse = await fetch(forecastUrl);
+        const forecastData = await forecastResponse.json();
+
+        if (forecastData.cod !== "200") {
+            return res.status(404).json({ error: 'Erro ao obter a previsão.' });
         }
 
          //Receber a descricao referente ao tempo, o icone e verificar o sufixo
@@ -134,14 +143,29 @@ app.get('/weather', async (req, res) => {
              iconFile = "Erro: icon not found";
          }
 
+        // Filtrando as temperaturas das próximas horas
+         const hourlyTemperatures = forecastData.list.map(hour => ({
+            time: new Date(hour.dt * 1000).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    hour12: false 
+                }), //formata para receber apenas a hora
+            temperature: `${Math.round(hour.main.temp)}°C`
+        }));
+
         // Processa os dados do clima e retorna os valores (e faz arredondamento da temperatura)
         res.json({
-            city: weatherData.name,
-            country: weatherData.sys.country,
-            temperature: `${Math.round(weatherData.main.temp)}°`,
-            feels_like: `${Math.round(weatherData.main.feels_like)}°`,
-            weather: weatherData.weather[0].description,
-            icon: iconFile
+            temp: {
+                city: weatherData.name,
+                country: weatherData.sys.country,
+                temperature: `${Math.round(weatherData.main.temp)}°`,
+                feels_like: `${Math.round(weatherData.main.feels_like)}°`,
+                weather: weatherData.weather[0].description,
+                icon: iconFile
+
+            }, 
+            forecast: hourlyTemperatures
+            
+           
         });
     } catch (error) {
         console.error('Erro ao buscar dados do clima:', error);
