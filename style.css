@@ -54,7 +54,7 @@ body, html{
     justify-content: flex-start;
     align-items: center;
     box-shadow: 0 4px 22px rgba(93, 93, 93, 0.25); 
-    backdrop-filter: blur(5px); /* Efeito de desfoque */
+    backdrop-filter: blur(8px); /* Efeito de desfoque */
     -webkit-backdrop-filter: blur(4px); /* Compatibilidade com navegadores WebKit */
     padding: 20px;
 
@@ -156,7 +156,7 @@ body, html{
 .container-temperature {
     display: grid;
     width: 95%;
-    grid-template-columns: 2fr 1fr; /* Define 2 colunas de tamanho igual */
+    grid-template-columns: 1.5fr 1fr; /* Define 2 colunas de tamanho igual */
     gap: 30px; /* Espaço entre as colunas */
     padding: 30px;
     background-color: transparent; /* Cor de fundo */
@@ -170,6 +170,7 @@ body, html{
     align-items: flex-start; 
     justify-content: flex-start;
     gap: 2px;
+    margin-left: 10px;
 }
 
 #temperature {
@@ -244,14 +245,16 @@ body, html{
 .hourly-forecast {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     gap: 10px;
     /* background-color: aqua; */
-    height: 100%;
-    width: 90%;
-    overflow: hidden; 
+    height: 60%;
+    width: 80%;
+    overflow: hidden;
     position: relative;
+    margin-top: 15px;
+    margin-left: 20px;
 
 }
 
@@ -260,22 +263,51 @@ body, html{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     /* background-color: aqua; */
     height: 318px;
-    width: 70%;
-    margin-top: 30px;
+    width: 95%;
+    margin-top: 100px;
+    position: relative;
+    overflow-x: auto; /* Ativa a rolagem horizontal */
+    
+}
+
+/* Estilizando a barra no Chrome, Edge e Safari */
+*::-webkit-scrollbar {
+    height: 4px; /* Para barras horizontais */
+    width: 4px; /* Para barras verticais */
+}
+
+
+*::-webkit-scrollbar-track {
+    background: #BFBFBF; /* Fundo da barra */
+    border-radius: 10px; /* Arredonda o fundo da barra */
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #3B178D !important; /*cor do botao de rolagem*/
+    width: 8px;
+    border-radius: 10px; /* Deixa arredondado */
+}
+
+/* Remove as setas da barra de rolagem no Chrome, Edge e Safari */
+*::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none; /* Garante que não seja exibido */
 }
 
 .forecast-item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     font-size: 18px;
     color: #D9D9D9;
     font-family: var(--poppins);
     padding: 8px;
     text-align: center;
+    user-select: none;
 }
 
 .forecast-temp {

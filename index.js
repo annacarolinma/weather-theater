@@ -147,8 +147,8 @@ app.get('/weather', async (req, res) => {
          const hourlyTemperatures = forecastData.list.map(hour => ({
             time: new Date(hour.dt * 1000).toLocaleTimeString('en-US', {
                     hour: '2-digit',
-                    hour12: false 
-                }), //formata para receber apenas a hora
+                    hour12: true 
+                }).toLowerCase(), //formata para receber apenas a hora
             temperature: `${Math.round(hour.main.temp)}°`
         }));
 
