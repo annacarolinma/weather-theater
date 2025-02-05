@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const forecastTemp = document.createElement('span');
                 forecastTemp.classList.add('forecast-temp');
-                forecastTemp.textContent = `${hourlyData.temperature}°`; // Temperatura da previsão
+                forecastTemp.textContent = `${hourlyData.temperature}`; // Temperatura da previsão
 
                 // const forecastIcon = document.createElement('img');
                 // forecastIcon.classList.add('forecast-icon');
