@@ -149,7 +149,8 @@ app.get('/weather', async (req, res) => {
                     hour: '2-digit',
                     hour12: true 
                 }).toLowerCase(), //formata para receber apenas a hora
-            temperature: `${Math.round(hour.main.temp)}°`
+            temperature: `${Math.round(hour.main.temp)}°`,
+            icon: iconFile // Adiciona o ícone correspondente
         }));
 
         // Processa os dados do clima e retorna os valores (e faz arredondamento da temperatura)

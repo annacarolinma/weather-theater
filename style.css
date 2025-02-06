@@ -249,8 +249,8 @@ body, html{
     justify-content: center;
     gap: 10px;
     /* background-color: aqua; */
-    height: 60%;
-    width: 80%;
+    height: 70%;
+    width: 85%;
     overflow: hidden;
     position: relative;
     margin-top: 15px;
@@ -267,7 +267,7 @@ body, html{
     /* background-color: aqua; */
     height: 318px;
     width: 95%;
-    margin-top: 100px;
+    margin-top: 60px;
     position: relative;
     overflow-x: auto; /* Ativa a rolagem horizontal */
     
@@ -312,6 +312,11 @@ body, html{
 
 .forecast-temp {
     font-size: 22px;
+}
+
+.forecast-icon {
+    width: 30px;
+    font-size: 18px;
 }
 
 .temperature-next-days p {

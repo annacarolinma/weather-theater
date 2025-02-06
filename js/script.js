@@ -94,14 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 forecastTemp.classList.add('forecast-temp');
                 forecastTemp.textContent = `${hourlyData.temperature}`; // Temperatura da previsão
 
-                // const forecastIcon = document.createElement('img');
-                // forecastIcon.classList.add('forecast-icon');
-                // forecastIcon.src = hourlyData.icon; // Ícone da previsão
+                const forecastIcon = document.createElement('img');
+                forecastIcon.classList.add('forecast-icon');
+                forecastIcon.src = hourlyData.icon; // Ícone da previsão
 
+                forecastItem.appendChild(forecastIcon);
                 forecastItem.appendChild(forecastTime);
                 forecastItem.appendChild(forecastTemp);
-                // forecastItem.appendChild(forecastIcon);
-
                 forecastcontainer.appendChild(forecastItem);
             });
         } else {
