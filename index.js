@@ -40,43 +40,238 @@ app.get('/weather', async (req, res) => {
 
     // Mapeia as descrições do clima para cada ícone que eu desenvolvi, com objetos que diferenciam se o clima é dia ou noite 
     const WeatherIconMap = {
-        "clear sky" : {
+
+        //clearSky
+        800 : {
             day: "icons/sunny.svg",
             night: "icons/clearSky-night.svg"
         },
-        "few clouds": {
+
+        //clouds
+        801: {
             day: "icons/partly_cloudy-day.svg",
             night: "icons/partly_cloudyNight.svg"
         },
-        "scattered clouds": {
+        802: {
             day: "icons/scattered_clouds.svg",
             night: "icons/scattered_clouds.svg"
         },
-        "broken clouds": {
+        803: {
             day: "icons/brokenclouds.svg",
             night: "icons/brokenclouds.svg"
         },
-        "shower rain": {
+        804: { 
+            day: "icons/brokenclouds.svg",
+            night: "icons/brokenclouds.svg"
+        },
+
+
+        //Rain
+        500: {
             day: "icons/shower_rain.svg",
             night: "icons/shower_rain.svg"
         },
-        "rain": {
-            day: "icons/Rain-night.svg",
-            night: "icons/rain-day.svg"
+        501: {
+            day: "icons/shower_rain.svg",
+            night: "icons/shower_rain.svg"
         },
-        "thunderstorm": {
-            day: "icons/thunderstorm.svg",
-            night: "icons/thunderstorm.svg"
+        502: {
+            day: "icons/shower_rain.svg",
+            night: "icons/shower_rain.svg"
         },
-        "snow": {
+        504: {
+            day: "icons/shower_rain.svg",
+            night: "icons/shower_rain.svg"
+        },
+        511: {
             day: "icons/snow.svg",
             night: "icons/snow.svg"
         },
-        "overcast clouds": {  // Se for o nome exato da descrição
-            day: "icons/brokenclouds.svg",
-            night: "icons/brokenclouds.svg"
+        520: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
         },
-        "mist": {
+        521: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        522: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        531: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+
+
+
+        //Thunderstorm
+        200: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        201: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        202: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        210: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        211: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        212: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        221: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        230: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        231: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+        232: {
+            day: "icons/thunderstorm.svg",
+            night: "icons/thunderstorm.svg"
+        },
+
+
+        //Drizzle
+        300: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        301: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        302: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        310: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        311: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        312: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        313: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        314: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+        321: {
+            day: "icons/Rain-night.svg",
+            night: "icons/rain-day.svg"
+        },
+
+        //Snow
+        600: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        601: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        }, 
+        602: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        611: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        612: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        613: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        615: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        616: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        620: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        621: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+        622: {
+            day: "icons/snow.svg",
+            night: "icons/snow.svg"
+        },
+
+
+        //Atmosphere
+        701: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        711: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        721: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        731: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        741: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        751: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        761: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        762: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        771: {
+            day: "icons/mist.svg",
+            night: "icons/mist.svg"
+        },
+        781: {
             day: "icons/mist.svg",
             night: "icons/mist.svg"
         }
@@ -127,17 +322,17 @@ app.get('/weather', async (req, res) => {
         }
 
          //Receber a descricao referente ao tempo, o icone e verificar o sufixo
-         const weather_description = weatherData.weather[0].description;
+         const weatherId = weatherData.weather[0].id;
          const iconCode = weatherData.weather[0].icon;  // Exemplo: "01d", "01n"
          const isDay = iconCode.endsWith('d'); // Verifica se é dia (sufixo "d")
 
          //Mapear o meu icone de acordo com o clima
          let iconFile;
-         if(WeatherIconMap[weather_description]) {
+         if(WeatherIconMap[weatherId]) {
              if(isDay) {
-                 iconFile = WeatherIconMap[weather_description].day;
+                 iconFile = WeatherIconMap[weatherId].day;
              } else {
-                 iconFile = WeatherIconMap[weather_description].night;
+                 iconFile = WeatherIconMap[weatherId].night;
              }
          } else {
              iconFile = "Erro: icon not found";
