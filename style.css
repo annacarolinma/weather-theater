@@ -13,7 +13,7 @@ body, html{
     flex-direction: column;
     border: none;
     padding: none;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.521), rgba(0, 0, 0, 0.601)), 
     url('../city-9296128_1920.jpg');
     background-size: cover; /* Faz com que a imagem cubra toda a área */
     background-repeat: no-repeat; /* Evita que a imagem seja repetida */
@@ -53,7 +53,7 @@ body, html{
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    box-shadow: 0 4px 22px rgba(93, 93, 93, 0.25); 
+    box-shadow: 0 4px 22px rgba(56, 56, 56, 0.25); 
     backdrop-filter: blur(8px); /* Efeito de desfoque */
     -webkit-backdrop-filter: blur(4px); /* Compatibilidade com navegadores WebKit */
     padding: 20px;
@@ -74,44 +74,60 @@ body, html{
 
 
 .input {
-    display: inline-block;
-    position: relative;
-    width: 220px; /* largura do container */
-    margin-left: 20px;
-    cursor: pointer;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 210px;
+    height: 29px;
+    padding: 5px;
+    margin-left: 10px;
+}
 
-  .material-symbols-rounded{
-    position: absolute;
-    font-size: 20px;
-    color: #E6E5E7;
-    right: 5px; /* Coloca o ícone na direita */
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none; /* Impede que o ícone interfira na digitação */
-   
-  }
 
-  #city {
+
+#city {
     all: unset; 
     width: 100%; /* Ajusta o input para ocupar todo o container */
     height: 30px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 30px;
+    font-size: 14px;
+    margin-left: 3px;
     transition: all 0.3s ease;
-    background-color: #ffffff26;
-    padding: 0 3px 0 10px; /* Espaço interno: direita para o ícone e esquerda para o texto */
+    background-color:transparent;
     color: white;
-  }
+}
 
-  #city::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
 
-  #city:hover {
-    border-color: rgba(255, 255, 255, 0.829);
-  }
+.material-symbols-rounded{
+    font-size: 20px;
+    color: #E6E5E7;
+
+    transition: transform 0.1s ease-in-out;
+}
+
+  
+.material-symbols-rounded:hover {
+    color: rgba(255, 255, 255, 0.5);
+}
+  
+
+#city::placeholder {
+color: rgba(255, 255, 255, 0.7);
+}
+
+#city:hover {
+border-color: rgba(255, 255, 255, 0.829);
+}
+
+#search-city {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
 
 /* Botões de escala de temperatura */
 .toggle-container {

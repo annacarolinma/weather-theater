@@ -134,4 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    //Evento ao clicar na seta de localizacao 
+    searchCityButton.addEventListener('click', function() {
+        const city = cityInput.value.trim(); // Obtém a cidade digitada
+        if (city) {
+            getWeatherLocal(city); // Chama a função para buscar o clima
+        } else {
+            alert("Por favor, insira o nome de uma cidade.");
+        }
+    });
 });
