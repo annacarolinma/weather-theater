@@ -1,8 +1,10 @@
-import { fetchWeatherData } from '../models/weatherModel.js';
+import WeatherService from '../services/WeatherService.js';
+
+const weatherService = new WeatherService();
 
 export const getWeather = async (req, res) => {
     try {
-        const data = await fetchWeatherData(req.query);
+        const data = await weatherService.fetchWeatherData(req.query);
         res.json(data);
     } catch (error) {
         console.error('Erro no controller:', error);

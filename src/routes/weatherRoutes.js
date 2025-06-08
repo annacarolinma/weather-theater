@@ -1,11 +1,17 @@
 import express from 'express';
-import { fetchWeatherData } from '../models/weatherModel.js';
+import WeatherService from '../services/WeatherService.js';
 
 const router = express.Router();
+const weatherService = new WeatherService();
 
 router.get('/', async (req, res) => {
     try {
-        const data = await fetchWeatherData(req.query);
+        const query = {
+            city: req.query.city,
+            lat: req.query.lat,
+            lon: req.query.lon
+        };
+        const data = await weatherService.fetchWeatherData(query);
         res.json(data);
     } catch (err) {
         res.status(400).json({ error: err.message });
