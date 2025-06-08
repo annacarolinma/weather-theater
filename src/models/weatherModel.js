@@ -48,15 +48,72 @@ function adaptCurrentWeather(data) {
 }
 
 // 🏭 Factory Method – para criar objetos de previsão
-function createForecastItem(hour, icon) {
+function createForecastItem(hour) {
+    const id = hour.weather[0].id;
+    const iconCode = hour.weather[0].icon;
+    const isDay = iconCode.endsWith('d');
+
     return {
         time: new Date(hour.dt * 1000).toLocaleTimeString('en-US', {
             hour: '2-digit',
             hour12: true
         }).toLowerCase(),
         temperature: `${Math.round(hour.main.temp)}°`,
-        icon
+        icon: WeatherIconMap[id]?.[isDay ? 'day' : 'night'] || 'Erro: icon not found'
     };
+}
+
+function groupForecastByDay(forecastList) {
+    const days = {};
+
+    forecastList.forEach(item => {
+        const date = new Date(item.dt * 1000).toISOString().split('T')[0]; // yyyy-mm-dd
+        if (!days[date]) {
+            days[date] = [];
+        }
+        days[date].push(item);
+    });
+
+    return days;
+}
+
+
+function createDailyForecastFromGrouped(daysGrouped) {
+    const dailyForecast = [];
+
+    for (const [date, items] of Object.entries(daysGrouped)) {
+        let minTemp = Infinity;
+        let maxTemp = -Infinity;
+
+        // Escolhe o ícone do horário mais próximo do meio-dia (12h) ou o primeiro do dia
+        const noonItem = items.find(i => new Date(i.dt * 1000).getHours() === 12) || items[0];
+        const weatherId = noonItem.weather[0].id;
+        const iconCode = noonItem.weather[0].icon;
+        const isDay = iconCode.endsWith('d');
+
+        // 🔍 Tipo de clima
+        const weatherType = noonItem.weather[0].main.toLowerCase(); // exemplo: "Rain", "Clouds", "Clear"
+
+        items.forEach(item => {
+            if (item.main.temp_min < minTemp) minTemp = item.main.temp_min;
+            if (item.main.temp_max > maxTemp) maxTemp = item.main.temp_max;
+        });
+
+        dailyForecast.push({
+            date,
+            min: `${Math.round(minTemp)}°`,
+            max: `${Math.round(maxTemp)}°`,
+            icon: WeatherIconMap[weatherId]?.[isDay ? 'day' : 'night'] || 'Erro: icon not found',
+            weatherType 
+        });
+    }
+
+    return dailyForecast;
+}
+
+function getDailyForecastFromForecastList(forecastList) {
+    const grouped = groupForecastByDay(forecastList);
+    return createDailyForecastFromGrouped(grouped);
 }
 
 // 🚀 Função principal
@@ -88,10 +145,12 @@ export async function fetchWeatherData(query) {
 
     const icon = adaptCurrentWeather(weatherData).icon;
 
-    const forecast = forecastData.list.map(hour => createForecastItem(hour, icon));
+    const forecast = forecastData.list.map(hour => createForecastItem(hour));
+    const dailyForecast = getDailyForecastFromForecastList(forecastData.list);
 
     return {
         temp: adaptCurrentWeather(weatherData),
-        forecast
+        forecast,
+        dailyForecast
     };
 }

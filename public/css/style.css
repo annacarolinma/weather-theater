@@ -344,18 +344,78 @@ border-color: rgba(255, 255, 255, 0.829);
     cursor: pointer;
 }
 
+/* DAILY FORECAST */
 
 .temp-next-days{
     width: 920px;
-    height: 260px;
+    height: 280px;
     background-color: transparent;
     margin-bottom: 30px;
     padding:20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    overflow-y: auto;
+    gap: 20px;
 }
 
 .card-day-temp{
     width: 153px;
-    height: 236px;
+    height: 216px;
     background-color: #ADADAD;
     border-radius: 20px;
+    color: #D9D9D9;
+    position: relative;
+}
+
+.card-content {
+    width: 153px;
+    height: 110px;
+    border-radius: 0 0 20px 20px;
+    background-color: #3C3C3C;
+    color: #D9D9D9;
+    padding: 10px;
+    position: absolute;
+    top: 130px;
+    left: 0;
+    box-sizing: border-box;
+    z-index: 2;
+    font-size: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* alinha pelo topo */
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sub-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#weather-title {
+    color: #D9D9D9;
+}
+
+#tempera {
+    font-size: 16px;
+}
+
+.img-weather {
+    width: 100%;
+    height: 90px;
+    top: 20px;
+
+}
+
+.img-weather img {
+    width: 20px;
+    height: 20px;
+    top: 100px;
 }

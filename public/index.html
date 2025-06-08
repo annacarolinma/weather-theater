@@ -35,9 +35,7 @@
     </head>
 
     <body>
-        <div class="container">
-            <h2> Weather theater</h2>
-            
+        <div class="container">  
             
             <div class="glass-container">
                 <!-- Div head da pag -->
@@ -77,14 +75,17 @@
                 </div><!--container-temperature-->
                 <div class="temp-next-days">
                     <div class="card-day-temp">
-                        <img id="weatherImage">
-                        <h4 id="what-is-day"></h4>
-                        <div class="card-content">
-                            <h2 id="weather"></h2>
-                            <h4 id="temp"></h4>
-                            <p id="rainy-percent"></p>
+                        <h4 id="what-is-day-${index}">${dayName}</h4>
+                        <div class="img-weather">
+                            <img id="weatherImage-${index}" src="${dayData.icon}" alt="Weather icon">
+                        </div>
+                       <div class="card-content">
+                            <div class="text-content">
+                                <h5 id="weather-title">Chuva</h5>
+                                <p id="tempera">23°C</p>
+                            </div>
                             <img id="weatherIcon-Card" src="" alt="" width="60" height="60">
-                        </div><!--card-content-->
+                        </div>
                     </div><!--card-day-temp-->
                 </div><!--div-temp-next-days-->
             </div> <!--div-glass-container-->
