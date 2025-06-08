@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import path from 'path';
-import weatherRoutes from './src/routes/weatherRoutes.js';
+import weatherRoutes from './backend/routes/weatherRoutes.js';
 import { fileURLToPath } from 'url';
 
 const app = express();
