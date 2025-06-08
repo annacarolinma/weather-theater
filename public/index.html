@@ -66,7 +66,6 @@
                         </div>
                         <div id="place">
                             <p id="city-temp"></p>
-                            <button id="button-alert"><span class="material-symbols-outlined">error</span></button>
                         </div>
                     </div> <!--div-temperature-->
                     <div class="hourly-forecast">
@@ -75,16 +74,18 @@
                 </div><!--container-temperature-->
                 <div class="temp-next-days">
                     <div class="card-day-temp">
-                        <h4 id="what-is-day-${index}">${dayName}</h4>
+                        <h6 id="what-is-day-${index}">${dayName}</h6>
                         <div class="img-weather">
                             <img id="weatherImage-${index}" src="${dayData.icon}" alt="Weather icon">
                         </div>
                        <div class="card-content">
-                            <div class="text-content">
-                                <h5 id="weather-title">Chuva</h5>
-                                <p id="tempera">23°C</p>
+                            <div class="title">
+                                <p id="weather-title"></p>
+                                <p id="tempera"></p>
                             </div>
-                            <img id="weatherIcon-Card" src="" alt="" width="60" height="60">
+                            <div class="img-card-content">
+                                <img id="weatherIcon-Card" src="" alt="" width="60" height="60">
+                            </div>
                         </div>
                     </div><!--card-day-temp-->
                 </div><!--div-temp-next-days-->

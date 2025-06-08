@@ -81,13 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.add('card-day-temp');
 
             card.innerHTML = `
-                <h4 id="what-is-day-${index}">${formattedDayName}</h4>
+                <h6 id="what-is-day-${index}">${formattedDayName}</h6>
                 <img id="weatherImage-${index}" src="${imageSrc}" alt="Weather image for ${formattedWeatherType}">
                 <div class="card-content">
-                    <h5 id="weather-title-${index}">${formattedWeatherType}</h5>
-                    <p id="tempera-${index}">${dayData.min} - ${dayData.max}</p>
-                    <p id="rainy-percent-${index}">${dayData.rainyPercent ? 'Chuva: ' + dayData.rainyPercent + '%' : ''}</p>
-                    <img id="weatherIcon-Card-${index}" src="${dayData.icon}" alt="Weather icon small" width="30" height="30">
+                    <div class="title">
+                        <p id="weather-title-${index}">${formattedWeatherType}</p>
+                        <p id="tempera-${index}">${dayData.min} / ${dayData.max}</p>
+                    </div>
+                    <div class="img-card-content">
+                        <img id="weatherIcon-Card-${index}" src="${dayData.icon}" alt="Weather icon small" width="30" height="30">
+                    </div>
                 </div>
             `;
 
