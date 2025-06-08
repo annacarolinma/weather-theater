@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hour.textContent = hourUpdate;
     }
 
-
-    
-
     async function getWeatherLocal(city = '') {
        
         let url = ''; // Inicializa a variável url
@@ -104,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 forecastcontainer.appendChild(forecastItem);
             });
         } else {
-            forecastElement.innerHTML = 'Previsões não disponíveis';
+            forecastcontainer.innerHTML = 'Previsões não disponíveis';
         }
         
 
@@ -121,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateTimeHour, 1000);
 
     // Atualiza o clima a cada 10 minutos
-    setInterval(() => getWeatherLocal(), 600000);
+    setInterval(() => getWeatherLocal(), 60000);
 
     // Evento para pressionar Enter no campo de entrada
     cityInput.addEventListener('keydown', (event) => {

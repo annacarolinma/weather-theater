@@ -22,7 +22,7 @@ app.use('/icons', express.static(path.resolve('icons')));
 // Rota para a página principal
 app.get('/', (req, res) => {
     // Garantindo que o caminho correto seja usado para o index.html
-    res.sendFile(path.resolve('Index.html'));
+    res.sendFile(path.resolve('index.html'));
 });
 
 // Endpoint para buscar dados do clima
