@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cityInput = document.getElementById('city'); // input da cidade
+    const cityInput = document.getElementById('city');
     const tempElement = document.getElementById('temp');
     const feelsElement = document.getElementById('feel');
     const weatherIconElement = document.getElementById('weatherIcon');
@@ -9,136 +9,97 @@ document.addEventListener('DOMContentLoaded', () => {
     const hour = document.getElementById('hour');
     const forecastcontainer = document.getElementById('hourly-container');
 
+    // Atualizador de Hora
     function updateTimeHour() {
         moment.locale('en');
-
-        const dateUpdate = moment().format("dddd, MMMM Do YYYY");
-        const hourUpdate = moment().format("h:mm");
-
-        date.textContent = dateUpdate;
-        hour.textContent = hourUpdate;
+        date.textContent = moment().format("dddd, MMMM Do YYYY");
+        hour.textContent = moment().format("h:mm");
     }
 
-    async function getWeatherLocal(city = '') {
-       
-        let url = ''; // Inicializa a variável url
+    // UI Updater 
+    const UIUpdater = {
+        updateCurrentWeather(tempData) {
+            if (tempData.icon) weatherIconElement.src = tempData.icon;
+            if (tempData.temperature) tempElement.innerHTML = `${tempData.temperature}`;
+            if (tempData.feels_like) feelsElement.innerHTML = `feels like ${tempData.feels_like}`;
+            if (tempData.city) placeElement.innerHTML = `${tempData.city}`;
+        },
 
-
-        if (city) {  // Se uma cidade for fornecida
-            console.log("Requisição usando cidade:", city);
-            url = `/weather?city=${city}`; // Se uma cidade for passada, monta a URL
-            console.log('url:', url);
-        } else {
-            // Caso contrário, obtém a geolocalização e monta a URL com as coordenadas
-            try {
-                const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject);
-                });
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                url = `/weather?lat=${lat}&lon=${lon}`; // URL com as coordenadas
-                console.log("Requisição usando latitude e longitude:", lat, lon);
-                console.log('url:', url);
-            } catch (error) {
-                console.error("Erro ao obter localização:", error);
-                alert("Não foi possível acessar sua localização. Tente novamente.");
-                return;  // Se der erro, a função não continua
-            }
-        }
-
-        // Faz a requisição
-        const response = await fetch(url);
-        const data = await response.json(); // Armazena os dados recebidos
-        
-        console.log(data); // Verifique a resposta do backend
-        WeatherFetch(data); // Passa os dados para a função de atualização
-    }
-
-    // Função para atualizar a interface com os dados do clima
-    function WeatherFetch(data) {
-        try {
-
-            const tempdata = data.temp;
-            if (tempdata.icon) {
-                weatherIconElement.src = tempdata.icon; // Usando o ícone que vem do backend
-            }
-
-            if (tempdata.temperature) {
-                tempElement.innerHTML = `${tempdata.temperature}`; // Temperatura
-            }
-
-            if (tempdata.feels_like) {
-                feelsElement.innerHTML = `feels like ${tempdata.feels_like}`; // Sensação térmica
-            }
-
-            if (tempdata.city) {
-                placeElement.innerHTML = `${tempdata.city}`; // Cidade e país
-            }
-            const forecastData = data.forecast;
+        updateForecast(forecastData) {
             forecastcontainer.innerHTML = '';
+            if (!forecastData || forecastData.length === 0) {
+                forecastcontainer.innerHTML = 'Previsões não disponíveis';
+                return;
+            }
 
-            // Se o forecastData existir e não estiver vazio, percorre as previsões
-        if (forecastData && forecastData.length > 0) {
-            forecastData.forEach(hourlyData => {
-                const forecastItem = document.createElement('div');
-                forecastItem.classList.add('forecast-item');
-                
-                const forecastTime = document.createElement('span');
-                forecastTime.classList.add('forecast-time');
-                forecastTime.textContent = hourlyData.time; // Hora da previsão
-                
-                const forecastTemp = document.createElement('span');
-                forecastTemp.classList.add('forecast-temp');
-                forecastTemp.textContent = `${hourlyData.temperature}`; // Temperatura da previsão
+            forecastData.forEach(({ time, temperature, icon }) => {
+                const item = document.createElement('div');
+                item.classList.add('forecast-item');
 
-                const forecastIcon = document.createElement('img');
-                forecastIcon.classList.add('forecast-icon');
-                forecastIcon.src = hourlyData.icon; // Ícone da previsão
+                item.innerHTML = `
+                    <img class="forecast-icon" src="${icon}">
+                    <span class="forecast-time">${time}</span>
+                    <span class="forecast-temp">${temperature}</span>
+                `;
 
-                forecastItem.appendChild(forecastIcon);
-                forecastItem.appendChild(forecastTime);
-                forecastItem.appendChild(forecastTemp);
-                forecastcontainer.appendChild(forecastItem);
+                forecastcontainer.appendChild(item);
             });
-        } else {
-            forecastcontainer.innerHTML = 'Previsões não disponíveis';
         }
-        
+    };
+
+    // Estratégias de Busca 
+    const WeatherService = {
+        async fetchByCity(city) {
+            const response = await fetch(`/weather?city=${city}`);
+            return await response.json();
+        },
+
+        async fetchByGeo() {
+            try {
+                const position = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej));
+                const { latitude: lat, longitude: lon } = position.coords;
+                const response = await fetch(`/weather?lat=${lat}&lon=${lon}`);
+                return await response.json();
+            } catch (error) {
+                alert("Não foi possível acessar sua localização.");
+                throw error;
+            }
+        }
+    };
+
+    // Controlador Principal 
+    async function loadWeather(city = '') {
+        try {
+            const data = city
+                ? await WeatherService.fetchByCity(city)
+                : await WeatherService.fetchByGeo();
+
+            console.log("Dados recebidos:", data);
+            UIUpdater.updateCurrentWeather(data.temp);
+            UIUpdater.updateForecast(data.forecast);
 
         } catch (error) {
-            console.error('Clima não encontrado:', error);
+            console.error("Erro ao obter clima:", error);
         }
     }
 
-    // Chama a função para pegar o clima da localização ou cidade padrão
-    getWeatherLocal();
-
-    //chama a funcao de data e hora para atualizacao
+    // Inicialização 
     updateTimeHour();
     setInterval(updateTimeHour, 1000);
+    loadWeather();
+    setInterval(() => loadWeather(), 600000); // 10 minutos
 
-    // Atualiza o clima a cada 10 minutos
-    setInterval(() => getWeatherLocal(), 60000);
-
-    // Evento para pressionar Enter no campo de entrada
-    cityInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') { // Verifica se a tecla pressionada é 'Enter'
-            const city = cityInput.value.trim(); // Obtém a cidade digitada
-            if (city) {
-                getWeatherLocal(city); // Chama a função para buscar o clima
-            } else {
-                alert("Por favor, insira o nome de uma cidade.");
-            }
+    cityInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            const city = cityInput.value.trim();
+            if (city) loadWeather(city);
+            else alert("Por favor, insira o nome de uma cidade.");
         }
     });
 
-    //Evento ao clicar na seta de localizacao 
-    searchCityButton.addEventListener('click', function() {
-        const city = cityInput.value.trim(); // Obtém a cidade digitada
-        if (city) {
-            getWeatherLocal(city); // Chama a função para buscar o clima
-        } else {
-            alert("Por favor, insira o nome de uma cidade.");
-        }
+    searchCityButton.addEventListener('click', () => {
+        const city = cityInput.value.trim();
+        if (city) loadWeather(city);
+        else alert("Por favor, insira o nome de uma cidade.");
     });
 });
