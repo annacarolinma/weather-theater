@@ -14,7 +14,7 @@ body, html{
     border: none;
     padding: none;
     background: linear-gradient(rgba(0, 0, 0, 0.521), rgba(0, 0, 0, 0.601)), 
-    url('../city-9296128_1920.jpg');
+    url('../assets/images/city-9296128_1920.jpg');
     background-size: cover; /* Faz com que a imagem cubra toda a área */
     background-repeat: no-repeat; /* Evita que a imagem seja repetida */
     background-position: center; /* Centraliza a imagem */
